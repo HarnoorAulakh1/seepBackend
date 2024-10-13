@@ -30,6 +30,10 @@ const schema=new Schema({
             ref:"user"
         }
     ],
+    websites:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"website",
+    },
     status:{
         type:String,
         required:true,

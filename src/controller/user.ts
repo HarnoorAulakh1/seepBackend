@@ -6,7 +6,6 @@ import userInterface from "../types.js";
 import { log } from "console";
 import createToken from "../utils/jwt.js";
 import user from "../schema/user.js";
-import { c, j } from "vite/dist/node/types.d-aGj9QkWt.js";
 import notifications from "../schema/notifications.js";
 import jwt from "jsonwebtoken";
 
@@ -21,6 +20,7 @@ export const login = async (req: Request, res: Response) => {
     return;
   } else {
     if (!(await bcrypt.compare(password, user1.password))) {
+      console.log("wrong");
       res.status(401).send(JSON.stringify("Password is incorrect"));
       return;
     }
@@ -69,14 +69,14 @@ export const sendFriendRequest = async (req: Request, res: Response) => {
   });
   data.save();
   console.log(req.body);
-  res.status(200).send(JSON.stringify({message:"Request sent"}));
+  res.status(200).send(JSON.stringify({ message: "Request sent" }));
 };
 
 export const addFriend = async (req: Request, res: Response) => {
-  const { id, friendId,notification_id } = req.body;
-  const check=await user.find({_id:id,friends:friendId});
+  const { id, friendId, notification_id } = req.body;
+  const check = await user.find({ _id: id, friends: friendId });
   await notifications.findByIdAndDelete(notification_id);
-  if(check.length!=0){
+  if (check.length != 0) {
     console.log("Already friends");
     res.send(JSON.stringify("Already friends"));
     return;
@@ -92,12 +92,19 @@ export const addFriend = async (req: Request, res: Response) => {
   res.send("Friend added");
 };
 
+export const getFriends = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const data = await user.findById(id);
+  const friends = await user.find({ _id: { $in: data!.friends } });
+  res.send(JSON.stringify(friends));
+};
+
 export const deleteNotification = async (req: Request, res: Response) => {
   const { id } = req.body;
   console.log(id);
   await notifications.findByIdAndDelete(id);
   res.send("Notification deleted");
-}
+};
 
 export const checkLogin = async (req: Request, res: Response) => {
   const token =
@@ -142,5 +149,4 @@ export const getNotifications = async (req: Request, res: Response) => {
   const data = await notifications.find({ reciever_id: id });
   console.log(data);
   res.send(JSON.stringify(data));
-}
-
+};

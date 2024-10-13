@@ -1,20 +1,7 @@
 import { Router } from "express";
-import {
-  login,
-  getFriends,
-  register,
-  addFriend,
-  sendFriendRequest,
-  checkLogin,
-  search,
-  getUser,
-  getNotifications,
-  deleteNotification,
-} from "../controller/user.js";
+import { login, getFriends, register, addFriend, sendFriendRequest, checkLogin, search, getUser, getNotifications, deleteNotification, } from "../controller/user.js";
 import { check } from "../middleware/auth.js";
-
 const router = Router();
-
 router.route("/login").post(login);
 router.route("/register").post(register);
 router.route("/sendFriendRequest").post(check, sendFriendRequest);
@@ -25,5 +12,4 @@ router.route("/getUser/:id").get(getUser);
 router.route("/getNotifications/:id").get(check, getNotifications);
 router.route("/deleteNotification/").post(check, deleteNotification);
 router.route("/getFriends/:id").get(getFriends);
-
 export default router;

@@ -8,9 +8,8 @@ import {app} from './socket.js';
 import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
 import "./notify-socket.js";
-
 const corsOptions = {
-  origin: 'http://localhost:5173',
+  origin: 'http://localhost:3000',
   credentials: true,
 };
 
