@@ -16,6 +16,7 @@ const corsOptions = {
   credentials: true, // Allow cookies and other credentials
 };
 
+app.options('*', cors(corsOptions)); 
 app.use(cors(corsOptions));
 app.use(cookieParser());
 app.use(bodyParser.json());
