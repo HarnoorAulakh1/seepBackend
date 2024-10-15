@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import {Schema} from 'mongoose';
 
-mongoose.connect('mongodb://localhost:27017/seep');
+mongoose.connect('mongodb+srv://aulakh:Xv4x0XdtKe9UGzho@cluster0.uoqaz4z.mongodb.net/');
 
 const schema=new Schema({
     username:{

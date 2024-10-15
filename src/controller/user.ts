@@ -17,7 +17,7 @@ export const login = async (req: Request, res: Response) => {
   const secret: any = process.env.secret;
   console.log(req.body);
   if (!user1) {
-    res.status(401).send("User does not exist");
+    res.status(401).send(JSON.stringify("Password is incorrect"));
     return;
   } else {
     if (!(await bcrypt.compare(password, user1.password))) {

@@ -68,6 +68,8 @@ wss.on("connection", async (ws, req) => {
     console.log("users= ", owner);
     users?.forEach((ipv) => {
       const receiverSocket = map.get(ipv);
+      console.log("map= ", map.size);
+      console.log("receiverSocket= ", (receiverSocket && receiverSocket.readyState === WebSocket.OPEN));
       if (receiverSocket && receiverSocket.readyState === WebSocket.OPEN) {
         if (senderId != null) {
           console.log(
@@ -108,7 +110,7 @@ wss.on("connection", async (ws, req) => {
         );
       }
       // console.log(await website.find({ url: senderId }));
-      map.delete(ip);
+      //map.delete(ip);
       const users = map1.get(senderId);
       if (users != null)
         map1.set(
