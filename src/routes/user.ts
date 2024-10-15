@@ -10,6 +10,7 @@ import {
   getUser,
   getNotifications,
   deleteNotification,
+  getSites,
 } from "../controller/user.js";
 import { check } from "../middleware/auth.js";
 
@@ -17,6 +18,7 @@ const router = Router();
 
 router.route("/login").post(login);
 router.route("/register").post(register);
+router.route("/getSites").post(getSites);
 router.route("/sendFriendRequest").post(check, sendFriendRequest);
 router.route("/acceptFriendRequest").post(check, addFriend);
 router.route("/checkLogin").get(checkLogin);

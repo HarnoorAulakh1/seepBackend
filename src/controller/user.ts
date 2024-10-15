@@ -8,6 +8,7 @@ import createToken from "../utils/jwt.js";
 import user from "../schema/user.js";
 import notifications from "../schema/notifications.js";
 import jwt from "jsonwebtoken";
+import website from "../schema/website.js";
 
 export const login = async (req: Request, res: Response) => {
   const { username, password } = req.body;
@@ -57,6 +58,15 @@ export const register = async (req: Request, res: Response) => {
   newUser.save();
   res.status(200).send("User created");
 };
+
+export const getSites=async(req:Request,res:Response)=>{
+  const owner=req.body.owner;
+  const sites=await website.find({owner:owner});
+  //console.log(await website.find());
+  // console.log("owner= ",owner);
+  // console.log("sites= ",sites);
+  res.send(JSON.stringify(sites));
+}
 
 export const sendFriendRequest = async (req: Request, res: Response) => {
   const { sender_id, reciever_id, message } = req.body;

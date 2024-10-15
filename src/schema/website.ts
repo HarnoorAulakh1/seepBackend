@@ -3,8 +3,7 @@ import mongoose from "mongoose";
 
 const site=new Schema({
     owner:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:"user"
+        type:String,
     },
     url:{
         type:String,
