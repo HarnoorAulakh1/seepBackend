@@ -9,7 +9,7 @@ import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
 import "./notify-socket.js";
 const corsOptions = {
-  origin: 'http://localhost:3000',
+  origin: 'https://view-bd5lrcnqx-rocky-aulakhs-projects.vercel.app/',
   credentials: true,
 };
 
