@@ -12,6 +12,7 @@ import website from "../schema/website.js";
 
 export const login = async (req: Request, res: Response) => {
   const { username, password } = req.body;
+  console.log(req.body);  
   const data: userInterface[] = await user.find({ username: username });
   const user1 = data[0];
   const secret: any = process.env.secret;
@@ -125,7 +126,7 @@ export const checkLogin = async (req: Request, res: Response) => {
   const secret: any = process.env.secret;
   try {
     if (!token) {
-      return res.status(401).send({ message: "No token" });
+      return res.send({ message: "No token" });
     } else {
       const data: any = jwt.verify(token, secret);
       return res.status(200).send(data["_doc"]);
