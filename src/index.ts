@@ -8,13 +8,13 @@ import {app} from './socket.js';
 import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
 import "./notify-socket.js";
-const corsOptions = {
-  origin: 'https://view-bd5lrcnqx-rocky-aulakhs-projects.vercel.app/',
-  credentials: true,
-};
+// const corsOptions = {
+//   origin: '*',
+//   credentials: true,
+// };
 
 dotenv.config({ path: "./.env" });
-app.use(cors(corsOptions));
+app.use(cors());
 app.use(cookieParser());
 app.use(bodyParser.json());
 
