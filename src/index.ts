@@ -10,6 +10,7 @@ import dotenv from 'dotenv';
 import "./notify-socket.js";
 const corsOptions = {
   origin: ['https://view-flax-xi.vercel.app','https://view-rocky-aulakhs-projects.vercel.app/','https://view-git-main-rocky-aulakhs-projects.vercel.app/'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true,
 };
 
