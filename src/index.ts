@@ -16,6 +16,8 @@ const corsOptions = {
 
 dotenv.config({ path: "./.env" });
 app.use(cors(corsOptions));
+app.options('*', cors());
+
 app.use(cookieParser());
 app.use(bodyParser.json());
 
