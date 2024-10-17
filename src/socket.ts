@@ -25,9 +25,9 @@ wss.on("connection", async (ws, req) => {
   let ip: string;
 
   if (Array.isArray(forwarded)) {
-    ip = forwarded[0]; // If it's an array, take the first IP
-  } else if (typeof forwarded === "string" && forwarded!==undefined) {
-    ip = forwarded; // If it's a string, split by commas and take the first IP
+    ip = forwarded[0];
+  } else if (typeof forwarded === "string" && forwarded !== undefined) {
+    ip = forwarded.split(",")[0].trim();
   } else {
     ip = "ulala";
   }
