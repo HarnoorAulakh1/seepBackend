@@ -64,7 +64,7 @@ wss.on("connection", async (ws, req) => {
       if (totalUsersMap.get(ip) != Number.isNaN) count = totalUsersMap.get(ip);
       await website.findOneAndUpdate(
         { url: senderId },
-        { $set: { [`total_users.${ip}`]: 1 + count } }
+        { $set: { "total_users":{[ip]: 1 + count} } }
       );
     }
   }
@@ -94,7 +94,7 @@ wss.on("connection", async (ws, req) => {
         );
         await website.findOneAndUpdate(
           { url: senderId },
-          { $set: { [`total_users.${ip}`]: count - 1 } }
+          { $set: { "total_users":{[ip]: count-1} } }
         );
       }
       send(senderId, senderId);
