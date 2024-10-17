@@ -37,7 +37,11 @@ wss.on("connection", async (ws, req) => {
     map.set(ip, ws);
     if (senderId != null && !map1.has(senderId))
       map1.set(senderId, new Array());
-    if (senderId != null && map1.get(senderId) != null && !map1.get(senderId)?.includes(ip))
+    if (
+      senderId != null &&
+      map1.get(senderId) != null &&
+      !map1.get(senderId)?.includes(ip)
+    )
       map1.get(senderId)?.push(ip);
     const web = await website.findOne({ url: senderId });
     let totalUsersMap,
@@ -93,8 +97,8 @@ wss.on("connection", async (ws, req) => {
         );
       }
       send(senderId, senderId);
-      // console.log(await website.find({ url: senderId }));
-      //map.delete(ip);
+      if (!(map.get(ip) && map.get(ip).readyState === WebSocket.OPEN))
+        map.delete(ip);
       const users = map1.get(senderId);
       if (users != null)
         map1.set(
@@ -123,14 +127,14 @@ async function send(url: string, senderId: string | null) {
           "sending message =",
           JSON.stringify({
             live_users: message?.live_users,
-            total_users: map1.get(senderId),
+            total_users: message?.total_users,
             new_signups: 0,
           })
         );
         receiverSocket.send(
           JSON.stringify({
             live_users: message?.live_users,
-            total_users: map1.get(senderId),
+            total_users: message?.total_users,
             new_signups: 0,
           })
         );
