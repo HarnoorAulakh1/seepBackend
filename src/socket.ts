@@ -19,7 +19,7 @@ const map1 = new Map<String, String[]>(); // senderId to ip , to find live users
 wss.on("connection", async (ws, req) => {
   const urlParams = new URLSearchParams(req.url?.split("?")[1]);
   const senderId = urlParams.get("senderId");
-  console.log("connected");
+  console.log("connected= "+senderId);
   let ip = req.socket.remoteAddress;
   ip = !ip ? "olo" : ip;
   if (senderId != null && senderId.length != 0 && senderId != undefined) {
@@ -46,7 +46,6 @@ wss.on("connection", async (ws, req) => {
       );
       totalUsersMap = new Map(Object.entries(web.total_users));
       if (totalUsersMap.get(ip) != Number.isNaN) count = totalUsersMap.get(ip);
-      console.log("count= ", count);
       await website.findOneAndUpdate(
         { url: senderId },
         { $set: { [`total_users.${ip}`]: 1 + count } }
@@ -65,10 +64,9 @@ wss.on("connection", async (ws, req) => {
       await website.findOneAndUpdate({ url: url }, { owner: owner });
     let message = await website.findOne({ url: url });
     const users = map1.get(url);
-    console.log("users= ", owner);
+    console.log("users= ", users);
     users?.forEach((ipv) => {
       const receiverSocket = map.get(ipv);
-      console.log("map= ", map.size);
       console.log("receiverSocket= ", (receiverSocket && receiverSocket.readyState === WebSocket.OPEN));
       if (receiverSocket && receiverSocket.readyState === WebSocket.OPEN) {
         if (senderId != null) {
