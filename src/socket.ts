@@ -22,18 +22,20 @@ wss.on("connection", async (ws, req) => {
   console.log("connected= " + senderId);
   console.log(`ip address= `, req.headers["x-forwarded-for"]);
   const forwarded = req.headers["x-forwarded-for"];
-  let ip: string;
+  let ip1: string;
 
   if (Array.isArray(forwarded)) {
-    ip = forwarded[0];
+    ip1 = forwarded[0];
   } else if (typeof forwarded === "string" && forwarded !== undefined) {
-    ip = forwarded.split(",")[0].trim();
+    ip1 = forwarded.split(",")[0].trim();
   } else {
-    ip = "ulala";
+    ip1 = "ulala";
   }
 
+  const ip: string = ip1.replace(/\./g, "_");
+
   console.log("ip= ", ip);
-  console.log("ip= ", typeof(ip));
+  console.log("ip= ", typeof ip);
   if (senderId != null && senderId.length != 0 && senderId != undefined) {
     map.set(ip, ws);
     if (senderId != null && !map1.has(senderId))
@@ -64,7 +66,7 @@ wss.on("connection", async (ws, req) => {
       if (totalUsersMap.get(ip) != Number.isNaN) count = totalUsersMap.get(ip);
       await website.findOneAndUpdate(
         { url: senderId },
-        { $set: { "total_users":{[ip]: 1 + count} } }
+        { $set: { [`total_users.${ip}`]: 1 + count } }
       );
     }
   }
@@ -94,7 +96,7 @@ wss.on("connection", async (ws, req) => {
         );
         await website.findOneAndUpdate(
           { url: senderId },
-          { $set: { "total_users":{[ip]: count-1} } }
+          { $set: { [`total_users.${ip}`]: count - 1 } }
         );
       }
       send(senderId, senderId);
