@@ -19,10 +19,18 @@ const map1 = new Map<String, String[]>(); // senderId to ip , to find live users
 wss.on("connection", async (ws, req) => {
   const urlParams = new URLSearchParams(req.url?.split("?")[1]);
   const senderId = urlParams.get("senderId");
-  console.log("connected= "+senderId);
-  console.log(`ip address= `, req.headers['x-forwarded-for']);
-  let ip = req.socket.remoteAddress;
-  ip = !ip ? "olo" : ip;
+  console.log("connected= " + senderId);
+  console.log(`ip address= `, req.headers["x-forwarded-for"]);
+  const forwarded = req.headers["x-forwarded-for"];
+  let ip: string;
+
+  if (Array.isArray(forwarded)) {
+    ip = forwarded[0]; // If it's an array, take the first IP
+  } else if (typeof forwarded === "string" && forwarded!==undefined) {
+    ip = forwarded; // If it's a string, split by commas and take the first IP
+  } else {
+    ip = "ulala";
+  }
   if (senderId != null && senderId.length != 0 && senderId != undefined) {
     map.set(ip, ws);
     if (senderId != null && !map1.has(senderId))
@@ -68,7 +76,10 @@ wss.on("connection", async (ws, req) => {
     console.log("users= ", users);
     users?.forEach((ipv) => {
       const receiverSocket = map.get(ipv);
-      console.log("receiverSocket= ", (receiverSocket && receiverSocket.readyState === WebSocket.OPEN));
+      console.log(
+        "receiverSocket= ",
+        receiverSocket && receiverSocket.readyState === WebSocket.OPEN
+      );
       if (receiverSocket && receiverSocket.readyState === WebSocket.OPEN) {
         if (senderId != null) {
           console.log(
