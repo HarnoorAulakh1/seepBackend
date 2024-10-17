@@ -20,6 +20,7 @@ wss.on("connection", async (ws, req) => {
   const urlParams = new URLSearchParams(req.url?.split("?")[1]);
   const senderId = urlParams.get("senderId");
   console.log("connected= "+senderId);
+  console.log(`ip address= `, req.socket.remoteAddress);
   let ip = req.socket.remoteAddress;
   ip = !ip ? "olo" : ip;
   if (senderId != null && senderId.length != 0 && senderId != undefined) {
