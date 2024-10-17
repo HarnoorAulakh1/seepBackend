@@ -71,36 +71,7 @@ wss.on("connection", async (ws, req) => {
     console.log("message received= ", parsedMessage);
     if (owner != "default" && owner != null && owner != undefined)
       await website.findOneAndUpdate({ url: url }, { owner: owner });
-    let message = await website.findOne({ url: url });
-    const users = map1.get(url);
-    console.log("users= ", users);
-    users?.forEach((ipv) => {
-      const receiverSocket = map.get(ipv);
-      console.log(
-        "receiverSocket= ",
-        receiverSocket && receiverSocket.readyState === WebSocket.OPEN
-      );
-      if (receiverSocket && receiverSocket.readyState === WebSocket.OPEN) {
-        if (senderId != null) {
-          console.log(
-            "sending message =",
-            JSON.stringify({
-              live_users: message?.live_users,
-              total_users: map1.get(senderId),
-              new_signups: 0,
-            })
-          );
-          receiverSocket.send(
-            JSON.stringify({
-              live_users: message?.live_users,
-              total_users: map1.get(senderId),
-              new_signups: 0,
-            }),
-            { binary: isBinary }
-          );
-        }
-      }
-    });
+    send(url, senderId);
   });
   ws.send(JSON.stringify({ message: "Hello! paaji kya haal ne" }));
   ws.on("close", async () => {
@@ -119,6 +90,7 @@ wss.on("connection", async (ws, req) => {
           { $set: { [`total_users.${ip}`]: count - 1 } }
         );
       }
+      send(senderId, senderId);
       // console.log(await website.find({ url: senderId }));
       //map.delete(ip);
       const users = map1.get(senderId);
@@ -132,3 +104,35 @@ wss.on("connection", async (ws, req) => {
     }
   });
 });
+
+async function send(url: string, senderId: string | null) {
+  let message = await website.findOne({ url: url });
+  const users = map1.get(url);
+  console.log("users= ", users);
+  users?.forEach((ipv) => {
+    const receiverSocket = map.get(ipv);
+    console.log(
+      "receiverSocket= ",
+      receiverSocket && receiverSocket.readyState === WebSocket.OPEN
+    );
+    if (receiverSocket && receiverSocket.readyState === WebSocket.OPEN) {
+      if (senderId != null) {
+        console.log(
+          "sending message =",
+          JSON.stringify({
+            live_users: message?.live_users,
+            total_users: map1.get(senderId),
+            new_signups: 0,
+          })
+        );
+        receiverSocket.send(
+          JSON.stringify({
+            live_users: message?.live_users,
+            total_users: map1.get(senderId),
+            new_signups: 0,
+          })
+        );
+      }
+    }
+  });
+}
