@@ -33,6 +33,7 @@ wss.on("connection", async (ws, req) => {
   }
 
   console.log("ip= ", ip);
+  console.log("ip= ", typeof(ip));
   if (senderId != null && senderId.length != 0 && senderId != undefined) {
     map.set(ip, ws);
     if (senderId != null && !map1.has(senderId))
