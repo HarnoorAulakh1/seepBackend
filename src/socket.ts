@@ -37,7 +37,7 @@ wss.on("connection", async (ws, req) => {
     map.set(ip, ws);
     if (senderId != null && !map1.has(senderId))
       map1.set(senderId, new Array());
-    if (senderId != null && map1.get(senderId) != null)
+    if (senderId != null && map1.get(senderId) != null && !map1.get(senderId)?.includes(ip))
       map1.get(senderId)?.push(ip);
     const web = await website.findOne({ url: senderId });
     let totalUsersMap,
