@@ -60,7 +60,7 @@ export const register = async (req: Request, res: Response) => {
     status: true,
   });
   newUser.save();
-  res.status(200).send("User created");
+  res.status(200).send(JSON.stringify("User created successfully"));
 }
 };
 
