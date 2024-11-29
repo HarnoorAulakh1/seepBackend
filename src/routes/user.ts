@@ -11,6 +11,7 @@ import {
   getNotifications,
   deleteNotification,
   getSites,
+  logout,
 } from "../controller/user.js";
 import { check } from "../middleware/auth.js";
 
@@ -18,6 +19,7 @@ const router = Router();
 
 router.route("/login").post(login);
 router.route("/register").post(register);
+router.route("/logout").post(logout);
 router.route("/getSites").post(getSites);
 router.route("/sendFriendRequest").post(check, sendFriendRequest);
 router.route("/acceptFriendRequest").post(check, addFriend);

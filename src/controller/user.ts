@@ -34,6 +34,9 @@ export const login = async (req: Request, res: Response) => {
     })
     .send(user1);
 };
+export const logout = async (req: Request, res: Response) => {
+  res.clearCookie("token").send("Logged out");
+}
 
 export const register = async (req: Request, res: Response) => {
   const { email, password, username, firstName, lastName }: userInterface =

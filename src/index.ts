@@ -11,6 +11,7 @@ import "./notify-socket.js";
 const corsOptions = {
   origin: [
     "http://localhost:3000",
+    "http://localhost:5173",
     "https://view-flax-xi.vercel.app",
     "https://view-rocky-aulakhs-projects.vercel.app/",
     "https://view-git-main-rocky-aulakhs-projects.vercel.app/",
@@ -25,6 +26,7 @@ app.use(cors(corsOptions));
 app.options("/user/checklogin", (req, res) => {
   res.header("Access-Control-Allow-Origin", [
     "http://localhost:3000",
+    "http://localhost:5173",
     "https://view-flax-xi.vercel.app",
     "https://view-rocky-aulakhs-projects.vercel.app/",
     "https://view-git-main-rocky-aulakhs-projects.vercel.app/",
