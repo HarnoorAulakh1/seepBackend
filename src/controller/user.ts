@@ -48,7 +48,7 @@ export const register = async (req: Request, res: Response) => {
     console.log("check= ", check);
     res.status(400).send(JSON.stringify("User already exists"));
     return;
-  }
+  }else{
   const password_hashed = await bcrypt.hash(password, 10);
   const newUser = new user({
     email,
@@ -61,6 +61,7 @@ export const register = async (req: Request, res: Response) => {
   });
   newUser.save();
   res.status(200).send("User created");
+}
 };
 
 export const getSites=async(req:Request,res:Response)=>{
