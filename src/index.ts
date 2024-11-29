@@ -10,6 +10,7 @@ import dotenv from "dotenv";
 import "./notify-socket.js";
 const corsOptions = {
   origin: [
+    "https://ornate-buttercream-64f6ac.netlify.app",
     "http://localhost:3000",
     "http://localhost:5173",
     "https://view-flax-xi.vercel.app",
@@ -25,6 +26,7 @@ dotenv.config({ path: "./.env" });
 app.use(cors(corsOptions));
 app.options("/user/checklogin", (req, res) => {
   res.header("Access-Control-Allow-Origin", [
+    "https://ornate-buttercream-64f6ac.netlify.app",
     "http://localhost:3000",
     "http://localhost:5173",
     "https://view-flax-xi.vercel.app",
