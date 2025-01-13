@@ -18,12 +18,12 @@ export const login = async (req: Request, res: Response) => {
   const secret: any = process.env.secret;
   console.log(req.body);
   if (!user1) {
-    res.status(401).send(JSON.stringify("Password is incorrect"));
+    res.send(JSON.stringify("Password is incorrect"));
     return;
   } else {
     if (!(await bcrypt.compare(password, user1.password))) {
       console.log("wrong");
-      res.status(401).send(JSON.stringify("Password is incorrect"));
+      res.send(JSON.stringify("Password is incorrect"));
       return;
     }
   }
@@ -44,9 +44,11 @@ export const register = async (req: Request, res: Response) => {
   const check = await user.find({
     $or: [{ email: email }, { username: username }],
   });
+  console.log(username,check);
   if (check.length != 0) {
     console.log("check= ", check);
-    res.status(400).send(JSON.stringify("User already exists"));
+    console.log("User already exists");
+    res.send(JSON.stringify("User already exists"));
     return;
   }else{
   const password_hashed = await bcrypt.hash(password, 10);
@@ -136,7 +138,7 @@ export const checkLogin = async (req: Request, res: Response) => {
       return res.status(200).send(data["_doc"]);
     }
   } catch (err) {
-    return res.status(401).send(0);
+    return res.status(401).send({ message: "invalid token" });
   }
 };
 
